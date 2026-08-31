@@ -1,6 +1,5 @@
 package com.richey.gtbankapp.model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,39 +11,21 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
 @Data
+@Table(name = "account")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Account {
     private Long id;
 
-    @Column(nullable = false)
-    private String firstName;
-
-    @Column(nullable = false)
-    private String lastName;
-
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    private String hashed_password;
-
-
-    private boolean isActive = true;
-    // Account
+    private String iban;
 
     @OneToOne
-    private Account account;
+    @JoinColumn(name="user_id")
+    private User user;
 
-    // Transactions
-
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
-
+    private boolean locked = true;
 
     @CreatedDate
     @Column(updatable = false, nullable = false)
@@ -53,8 +34,4 @@ public class User {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
-
-
-
-
 }

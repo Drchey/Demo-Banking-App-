@@ -1,5 +1,6 @@
 package com.richey.gtbankapp.service;
 
+import com.richey.gtbankapp.dto.LoginRequest;
 import com.richey.gtbankapp.dto.RegistrationRequest;
 import com.richey.gtbankapp.dto.UserResponse;
 import com.richey.gtbankapp.model.User;
@@ -37,6 +38,11 @@ public class UserServiceImpl implements UserService {
 
         User savedUser = userRepo.save(user);
 
+        return;
+    }
+
+    @Override
+    public void LoginUser(LoginRequest request) {
         return;
     }
 

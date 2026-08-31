@@ -1,1 +1,1 @@
-A Demo Banking App (GtBank lol)
+### A Demo Banking App Simulating Transactions 

@@ -1,5 +1,6 @@
 package com.richey.gtbankapp.service;
 
+import com.richey.gtbankapp.dto.AuthTokenResponse;
 import com.richey.gtbankapp.dto.LoginRequest;
 import com.richey.gtbankapp.dto.RegistrationRequest;
 import com.richey.gtbankapp.dto.UserResponse;
@@ -8,9 +9,9 @@ import java.util.List;
 
 public interface UserService{
 
-    void createUser(RegistrationRequest request);
+    UserResponse createUser(RegistrationRequest request);
 
-    void LoginUser(LoginRequest request);
+    AuthTokenResponse LoginUser(LoginRequest request);
 
     //void updateUser(Long userId, )
 

@@ -83,7 +83,15 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountResponse> getAllAccount() {
-        return List.of();
+        return accountRepo.findAll().stream().map(
+                account ->new AccountResponse(
+                        account.getIban(),
+                        account.getUser().getFirstName(),
+                        account.getUser().getLastName(),
+                        account.getUser().getEmail(),
+                        account.isLocked()
+                )
+        ).toList();
     }
 
     @Override

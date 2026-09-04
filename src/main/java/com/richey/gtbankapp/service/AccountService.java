@@ -8,7 +8,7 @@ import java.util.List;
 public interface AccountService {
 
     // Create Account
-    void createAccount(AccountRequest request);
+    AccountResponse createAccount(AccountRequest request);
 
     // Lock Account - Toggle
     AccountResponse toggleAccountLock(Long accountId);

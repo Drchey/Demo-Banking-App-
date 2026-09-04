@@ -15,7 +15,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private String secret = "23113811013722";
+    private String secret = "5yE6Gg+pNfXKRQl3V0Tt3QHgmXWX+a0bYGBXdg6v1Os";
     private Long expirationMs = 3600000L;
 
 

@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 @Component
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class SecurityUtils {
-    private final SecurityConfig securityConfig;
+//    private final SecurityConfig securityConfig;
 
     public User getCurrrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
                 .firstName(request.firstName())
                 .lastName(request.lastName())
                 .email(request.email())
-                .password(request.password()) // Need to Encode Password
+                .password(passwordEncoder.encode(request.password())) // Need to Encode Password
                 .role(UserRole.ROLE_USER)
                 .build();
 

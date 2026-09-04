@@ -64,7 +64,21 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountResponse toggleAccountLock(Long accountId) {
-        return null;
+        // Check if Account exists
+        Account account = accountRepo.findById(accountId).orElseThrow(()
+        -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account Not Found"));
+        // Toggle the Account of User
+       account.setLocked(!account.isLocked());
+       Account savedAccount = accountRepo.save(account);
+
+       return new AccountResponse(
+            savedAccount.getIban(),
+            savedAccount.getUser().getFirstName(),
+            savedAccount.getUser().getLastName(),
+            savedAccount.getUser().getEmail(),
+            savedAccount.isLocked()
+       );
+
     }
 
     @Override

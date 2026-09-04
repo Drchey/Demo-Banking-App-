@@ -19,7 +19,10 @@ public class AccountController {
         return ResponseEntity.ok(accountService.createAccount(request));
     }
 
-//    // Get Mapping
-//    @GetMapping("/{id}")
-//    public
+    // Get Mapping
+    @PostMapping("/{accountId}")
+    public ResponseEntity<AccountResponse> toggleAccount(@PathVariable Long accountId){
+        return ResponseEntity.ok(accountService.toggleAccountLock(accountId));
+    }
+
 }

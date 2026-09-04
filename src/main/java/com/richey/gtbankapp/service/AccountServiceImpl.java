@@ -88,6 +88,16 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountResponse getAccountById(Long accountId) {
-        return null;
+        // Check if Account Exists
+        Account account = accountRepo.findById(accountId).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Account Not Found"));
+
+        return new AccountResponse(
+                account.getIban(),
+                account.getUser().getFirstName(),
+                account.getUser().getLastName(),
+                account.getUser().getEmail(),
+                account.isLocked()
+        );
     }
 }

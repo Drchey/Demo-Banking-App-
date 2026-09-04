@@ -4,6 +4,7 @@ import com.richey.gtbankapp.dto.AccountRequest;
 import com.richey.gtbankapp.dto.AccountResponse;
 import com.richey.gtbankapp.service.AccountServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,11 @@ public class AccountController {
     @PostMapping("/{accountId}")
     public ResponseEntity<AccountResponse> toggleAccount(@PathVariable Long accountId){
         return ResponseEntity.ok(accountService.toggleAccountLock(accountId));
+    }
+//
+    @GetMapping("/accountId")
+    public ResponseEntity<AccountResponse> getAccountDetails(@PathVariable Long accountId){
+        return ResponseEntity.ok(accountService.getAccountById(accountId));
     }
 
 }

@@ -10,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -32,6 +33,10 @@ public class Account {
     private User user;
 
     private boolean locked = true;
+
+//    @Column(nullable = false, precision = 19, scale = 4)
+//    @Builder.Default
+//    private BigDecimal balance = BigDecimal.ZERO;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp

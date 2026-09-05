@@ -18,4 +18,8 @@ public interface AccountService {
 
     // find Account By Id
     AccountResponse getAccountById(Long accountId);
+
+
+    // Get current user account details
+    AccountResponse getUserAccount();
 }

@@ -24,6 +24,11 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAllAccount());
     }
 
+    @GetMapping("/user_details")
+    public ResponseEntity<AccountResponse> getUserAccount(){
+        return ResponseEntity.ok(accountService.getUserAccount());
+    }
+
     @PostMapping("/create")
     public ResponseEntity<AccountResponse> createAccount(@RequestBody AccountRequest request){
         return ResponseEntity.ok(accountService.createAccount(request));

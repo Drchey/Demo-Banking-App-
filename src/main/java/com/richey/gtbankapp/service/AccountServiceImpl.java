@@ -6,6 +6,7 @@ import com.richey.gtbankapp.model.Account;
 import com.richey.gtbankapp.model.User;
 import com.richey.gtbankapp.repo.AccountRepo;
 import com.richey.gtbankapp.repo.UserRepo;
+import com.richey.gtbankapp.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
@@ -21,6 +22,7 @@ public class AccountServiceImpl implements AccountService {
 
     private final UserRepo userRepo;
     private final AccountRepo accountRepo;
+    private final SecurityUtils securityUtils;
 
     private String generateIban() {
         final String newIban = Iban.random(CountryCode.TN)
@@ -98,6 +100,23 @@ public class AccountServiceImpl implements AccountService {
     public AccountResponse getAccountById(Long accountId) {
         // Check if Account Exists
         Account account = accountRepo.findById(accountId).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Account Not Found"));
+
+        return new AccountResponse(
+                account.getIban(),
+                account.getUser().getFirstName(),
+                account.getUser().getLastName(),
+                account.getUser().getEmail(),
+                account.isLocked()
+        );
+    }
+
+    @Override
+    public AccountResponse getUserAccount() {
+        // Get the Current User Id
+        Long currentUserId = securityUtils.getCurrentUserId();
+        // Get the User Account Details
+        Account account = accountRepo.findByUserId(currentUserId).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Account Not Found"));
 
         return new AccountResponse(

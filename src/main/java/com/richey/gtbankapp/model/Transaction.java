@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -43,5 +44,10 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false) // <-- UNCOMMENTED
+    private LocalDateTime createdAt;
+
 
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public interface TransactionService {
 
     // Deposit
-    TransactionResponse desposit(Long userId, TransactionDepositRequest request);
+    TransactionResponse deposit(TransactionDepositRequest request);
 
     // Withdraw
     TransactionResponse withdraw(TransactionWithdrawRequest request);
@@ -18,7 +18,7 @@ public interface TransactionService {
      TransactionResponse transfer(TransactionTransferRequest request);
 
     // Get All Transactions with a User
-    List<TransactionResponse> getAllTransactions(Long userId);
+    List<TransactionResponse> getAllTransactions();
 
     // Get All Transactions from User
     List<TransactionResponse> getAllUserTransaction();

@@ -31,7 +31,7 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Override
     @Transactional
-    public TransactionResponse desposit(Long userId, TransactionDepositRequest request) {
+    public TransactionResponse deposit(TransactionDepositRequest request) {
 
         // Get User Info
         Long getCurrentUserId = securityUtils.getCurrentUserId();
@@ -132,7 +132,7 @@ public class TransactionServiceImpl implements TransactionService{
 
 
     @Override
-    public List<TransactionResponse> getAllTransactions(Long userId) {
+    public List<TransactionResponse> getAllTransactions() {
 
         // Get All Where 
         return transactionRepo.findAll().stream().map(

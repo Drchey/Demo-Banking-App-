@@ -2,6 +2,7 @@ package com.richey.gtbankapp.service;
 
 import com.richey.gtbankapp.dto.TransactionDepositRequest;
 import com.richey.gtbankapp.dto.TransactionResponse;
+import com.richey.gtbankapp.dto.TransactionTransferRequest;
 import com.richey.gtbankapp.dto.TransactionWithdrawRequest;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public interface TransactionService {
 
     // Withdraw
     TransactionResponse withdraw(TransactionWithdrawRequest request);
+
+     TransactionResponse transfer(TransactionTransferRequest request);
 
     // Get All Transactions with a User
     List<TransactionResponse> getAllTransactions(Long userId);

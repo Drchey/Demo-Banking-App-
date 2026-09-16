@@ -41,6 +41,10 @@ public class Transaction {
     private String sourceIban;
     private String destinationIban;
 
+
+    @OneToOne
+    private Fraud fraud;
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;

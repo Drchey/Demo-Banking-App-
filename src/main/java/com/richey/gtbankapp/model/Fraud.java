@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "fraud",uniqueConstraints = @UniqueConstraint(columnNames = "transaction_id"))
@@ -19,6 +20,10 @@ public class Fraud {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    private FraudCheck riskLevel;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private FraudStatus status;
 
     @CreatedDate
@@ -29,5 +34,13 @@ public class Fraud {
     @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
 
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private List<FraudReason> reasons;  // which rules fired
+
+    @Enumerated(EnumType.STRING)
+    private  FraudDecision decision;
+
+    private LocalDateTime evaluatedAt;
 
 }

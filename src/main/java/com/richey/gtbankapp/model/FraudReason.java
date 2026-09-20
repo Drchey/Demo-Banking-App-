@@ -1,0 +1,10 @@
+package com.richey.gtbankapp.model;
+
+public enum FraudReason {
+    AMOUNT_ABOVE_THRESHOLD,
+    UNUSUAL_AMOUNT_FOR_USER,
+    HIGH_VELOCITY,
+    NEW_DESTINATION_ACCOUNT,
+    RAPID_REPEAT_TRANSFER,
+    DORMANT_ACCOUNT_SUDDEN_ACTIVITY
+}

@@ -164,4 +164,13 @@ public class TransactionServiceImpl implements TransactionService{
                 )
         ).toList();
     }
+
+    // Fraud Checks
+    private boolean isFraudTransfer(BigDecimal accountBalance, BigDecimal amount){
+        boolean isGreaterThan5000 = amount.compareTo(BigDecimal.valueOf(5000)) > 0;
+        BigDecimal accountBalance40Percent = accountBalance.multiply(BigDecimal.valueOf(0.4));
+        boolean isGreaterThan40Percent = amount.compareTo(accountBalance40Percent) > 0;
+
+        return isGreaterThan40Percent || isGreaterThan5000;
+    }
 }

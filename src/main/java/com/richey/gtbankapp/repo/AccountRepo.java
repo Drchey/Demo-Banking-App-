@@ -18,5 +18,5 @@ public interface AccountRepo extends JpaRepository<Account, Long> {
     Optional<Account> findByUserId(Long userId);
     Optional<Account> findByIban(String iban);
 
-    Page<Account> getAllAccount(Pageable pageable);
+//    Page<Account> getAllAccount(Pageable pageable);
 }

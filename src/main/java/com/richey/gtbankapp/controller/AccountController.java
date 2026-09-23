@@ -4,13 +4,10 @@ import com.richey.gtbankapp.dto.AccountRequest;
 import com.richey.gtbankapp.dto.AccountResponse;
 import com.richey.gtbankapp.service.AccountServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

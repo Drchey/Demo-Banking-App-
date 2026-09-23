@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,8 +28,6 @@ public class Transaction {
     @Column(nullable = false, precision = 19, scale = 4)
     private BigDecimal amount;
 
-    @Column(nullable = false)
-    private LocalDateTime date;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -49,9 +48,21 @@ public class Transaction {
     @JoinColumn(name="user_id")
     private User user;
 
+
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false) // <-- UNCOMMENTED
     private LocalDateTime createdAt;
 
+    @LastModifiedDate
+    @Column(name = "last_modified_date", nullable = false) // <-- UNCOMMENTED
+    private LocalDateTime lastModifiedDate;
+
+
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.lastModifiedDate = LocalDateTime.now();
+    }
 
 }

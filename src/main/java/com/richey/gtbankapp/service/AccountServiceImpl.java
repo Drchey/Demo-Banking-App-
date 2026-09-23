@@ -10,6 +10,9 @@ import com.richey.gtbankapp.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -84,8 +87,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountResponse> getAllAccount() {
-        return accountRepo.findAll().stream().map(
+    public Page<AccountResponse> getAllAccount(Pageable pageable) {
+   return accountRepo.findAll(pageable).map(
                 account ->new AccountResponse(
                         account.getIban(),
                         account.getUser().getFirstName(),
@@ -93,7 +96,7 @@ public class AccountServiceImpl implements AccountService {
                         account.getUser().getEmail(),
                         account.isLocked()
                 )
-        ).toList();
+        );
     }
 
     @Override

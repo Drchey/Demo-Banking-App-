@@ -2,6 +2,9 @@ package com.richey.gtbankapp.service;
 
 import com.richey.gtbankapp.dto.AccountRequest;
 import com.richey.gtbankapp.dto.AccountResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 
 import java.util.List;
 
@@ -13,8 +16,9 @@ public interface AccountService {
     // Lock Account - Toggle
     AccountResponse toggleAccountLock(Long accountId);
 
+
     // get All Accounts
-    List<AccountResponse> getAllAccount(); // Pagination
+    Page<AccountResponse> getAllAccount(Pageable pageable); // Pagination
 
     // find Account By Id
     AccountResponse getAccountById(Long accountId);

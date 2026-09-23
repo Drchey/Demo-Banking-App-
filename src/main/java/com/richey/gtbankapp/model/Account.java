@@ -34,15 +34,9 @@ public class Account {
 
     private boolean locked = true;
 
-//    @Column(nullable = false, precision = 19, scale = 4)
-//    @Builder.Default
-//    private BigDecimal balance = BigDecimal.ZERO;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-//    @LastModifiedDate
-//    @Column(insertable = false)
-//    private LocalDateTime lastModifiedDate;
 }

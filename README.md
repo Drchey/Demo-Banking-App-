@@ -145,7 +145,6 @@ INITIATED  →  PROCESSING  →  COMPLETED
                    └──────→  FAILED
 ```
 
-*(Adjust the statuses above to match your implementation.)*
 
 ---
 

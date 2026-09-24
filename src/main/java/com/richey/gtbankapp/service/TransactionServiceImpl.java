@@ -4,6 +4,8 @@ import com.richey.gtbankapp.dto.TransactionDepositRequest;
 import com.richey.gtbankapp.dto.TransactionResponse;
 import com.richey.gtbankapp.dto.TransactionTransferRequest;
 import com.richey.gtbankapp.dto.TransactionWithdrawRequest;
+import com.richey.gtbankapp.handler.InsufficentFundsException;
+import com.richey.gtbankapp.handler.InvalidAmountException;
 import com.richey.gtbankapp.model.*;
 import com.richey.gtbankapp.repo.AccountRepo;
 import com.richey.gtbankapp.repo.TransactionRepo;
@@ -61,10 +63,18 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Override
     public TransactionResponse withdraw(TransactionWithdrawRequest request) {
+
+        validatePositive(request.amount());
         Long getCurrentUserId = securityUtils.getCurrentUserId();
 
         User user = userRepo.findById(getCurrentUserId).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        BigDecimal balance = transactionRepo.calculateBalance(user.getAccount().getId());
+
+        if(balance.compareTo(request.amount()) <0){
+            throw new InsufficentFundsException("Insufficent Funds");
+        }
 
 
         Transaction transaction = Transaction
@@ -90,8 +100,13 @@ public class TransactionServiceImpl implements TransactionService{
     @Transactional
     public TransactionResponse transfer(TransactionTransferRequest request) {
         //get the user account
+        validatePositive(request.amount());
         Long currentUserId = securityUtils.getCurrentUserId();
 
+
+        if (request.sourceIban().equals(request.destinationIban())) {
+            throw new IllegalArgumentException("Cannot transfer to the same account");
+        }
 
         Account sourceAccount = accountRepo.findByUserId(currentUserId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found")
@@ -172,5 +187,12 @@ public class TransactionServiceImpl implements TransactionService{
         boolean isGreaterThan40Percent = amount.compareTo(accountBalance40Percent) > 0;
 
         return isGreaterThan40Percent || isGreaterThan5000;
+    }
+
+
+    private void validatePositive(BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new InvalidAmountException("Amount must be greater than zero");
+        }
     }
 }

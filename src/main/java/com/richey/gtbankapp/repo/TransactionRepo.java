@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface TransactionRepo extends JpaRepository<Transaction, Long> {
@@ -17,5 +18,12 @@ public interface TransactionRepo extends JpaRepository<Transaction, Long> {
         SELECT t from Transaction t INNER JOIN t.fraud f WHERE f.type = :type
     """)
     List<Transaction> findAllTransactionWithFraud(@Param("type") FraudType type);
+
+
+    @Query("""
+                SELECT COALESE(SUM(t.amount),0) FROM Transaction t 
+                WHERE t.account_id = :accountId AND t.status = 'COMPLETED'
+        """)
+    BigDecimal calculateBalance(Long accountId);
 
 }

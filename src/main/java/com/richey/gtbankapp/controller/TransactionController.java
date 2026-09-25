@@ -8,6 +8,7 @@ import com.richey.gtbankapp.dto.TransactionWithdrawRequest;
 import com.richey.gtbankapp.service.TransactionServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,11 +21,13 @@ public class TransactionController {
 
 
     @GetMapping("")
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<List<TransactionResponse>> getAllTransactions(){
         return ResponseEntity.ok(transactionService.getAllTransactions());
     }
 
     @GetMapping("/users")
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<List<TransactionResponse>> getUserTransactions(){
         return ResponseEntity.ok(transactionService.getAllUserTransaction());
     }

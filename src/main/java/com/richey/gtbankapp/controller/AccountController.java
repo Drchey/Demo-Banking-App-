@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class AccountController {
 
     // Get All
     @GetMapping("/")
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<Page<AccountResponse>> getAllAccount(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -42,18 +44,21 @@ public class AccountController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<AccountResponse> createAccount(@RequestBody AccountRequest request){
         return ResponseEntity.ok(accountService.createAccount(request));
     }
 
     // Toggle Account  Mapping
     @PostMapping("/{accountId}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<AccountResponse> toggleAccount(@PathVariable Long accountId){
         return ResponseEntity.ok(accountService.toggleAccountLock(accountId));
     }
 
     // Get Account By Id
     @GetMapping("/accountId")
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     public ResponseEntity<AccountResponse> getAccountDetails(@PathVariable Long accountId){
         return ResponseEntity.ok(accountService.getAccountById(accountId));
     }

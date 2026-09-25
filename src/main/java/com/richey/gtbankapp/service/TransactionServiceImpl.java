@@ -70,7 +70,7 @@ public class TransactionServiceImpl implements TransactionService{
         User user = userRepo.findById(getCurrentUserId).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-        BigDecimal balance = transactionRepo.calculateBalance(user.getAccount().getId());
+        BigDecimal balance = transactionRepo.calculateBalance(user.getAccount().getIban());
 
         if(balance.compareTo(request.amount()) <0){
             throw new InsufficentFundsException("Insufficent Funds");

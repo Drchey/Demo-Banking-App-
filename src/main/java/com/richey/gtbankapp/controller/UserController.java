@@ -7,6 +7,7 @@ import com.richey.gtbankapp.dto.UserResponse;
 import com.richey.gtbankapp.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class UserController {
 
     // Register User
     @PostMapping("")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<UserResponse> registerUser(@RequestBody RegistrationRequest request){
         return ResponseEntity.ok(userService.createUser(request));
     }

@@ -19,11 +19,18 @@ public interface TransactionRepo extends JpaRepository<Transaction, Long> {
     """)
     List<Transaction> findAllTransactionWithFraud(@Param("type") FraudType type);
 
-
     @Query("""
-                SELECT COALESE(SUM(t.amount),0) FROM Transaction t 
-                WHERE t.account_id = :accountId AND t.status = 'COMPLETED'
-        """)
-    BigDecimal calculateBalance(Long accountId);
+    SELECT COALESCE(SUM(
+        CASE
+            WHEN t.destinationIban = :iban THEN t.amount
+            WHEN t.sourceIban = :iban THEN -t.amount
+            ELSE 0
+        END
+    ), 0)
+    FROM Transaction t
+    WHERE (t.sourceIban = :iban OR t.destinationIban = :iban)
+      AND t.status = 'COMPLETED'
+""")
+    BigDecimal calculateBalance(@Param("iban") String iban);
 
 }

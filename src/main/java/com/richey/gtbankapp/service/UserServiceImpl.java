@@ -4,6 +4,7 @@ import com.richey.gtbankapp.dto.AuthTokenResponse;
 import com.richey.gtbankapp.dto.LoginRequest;
 import com.richey.gtbankapp.dto.RegistrationRequest;
 import com.richey.gtbankapp.dto.UserResponse;
+import com.richey.gtbankapp.dto.mail.UserRegisteredEvent;
 import com.richey.gtbankapp.model.User;
 import com.richey.gtbankapp.model.UserRole;
 import com.richey.gtbankapp.repo.UserRepo;
@@ -11,6 +12,7 @@ import com.richey.gtbankapp.security.JwtUtil;
 import com.richey.gtbankapp.security.UserDetailsServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private final JwtUtil jwtUtil;
     private  final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
+    private final ApplicationEventPublisher publisher;
 
 
     @Override
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         User savedUser = userRepo.save(user);
+
 
         return new UserResponse(
             savedUser.getFirstName(),
@@ -73,6 +77,8 @@ public class UserServiceImpl implements UserService {
                 () -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Email or Password"));
 
         String token =jwtUtil.generateToken(user);
+        publisher.publishEvent(new UserRegisteredEvent(user.getEmail()));
+
         return new AuthTokenResponse(token);
     }
 

@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -15,8 +16,11 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private String secret = "5yE6Gg+pNfXKRQl3V0Tt3QHgmXWX+a0bYGBXdg6v1Os";
-    private Long expirationMs = 3600000L;
+    @Value("${app.secret.key}")
+    private String secret;
+
+    @Value("${app.jwt.expiration-ms}")
+    private Long expirationMs;
 
 
     // Get Sigin Key

@@ -54,6 +54,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Column
+    private LocalDateTime passwordChangedAt;
+
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false) // <-- UNCOMMENTED

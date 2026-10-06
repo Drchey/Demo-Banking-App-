@@ -56,9 +56,6 @@ class TransactionServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        // Adjust to your entities (setters/builders)
-        sourceAccount = Account.builder().iban(SOURCE_IBAN).build();
-        destinationAccount = Account.builder().iban(DEST_IBAN).build();
 
         user = User.builder()
                 .id(1L)
@@ -68,6 +65,12 @@ class TransactionServiceImplTest {
                 .password("password")
                 .build();
         user.setAccount(sourceAccount); // withdraw() uses user.getAccount().getIban()
+
+        // Adjust to your entities (setters/builders)
+        sourceAccount = Account.builder().iban(SOURCE_IBAN).user(user).build();
+        destinationAccount = Account.builder().iban(DEST_IBAN).user(user).build();
+
+
     }
 
     private Transaction captureSavedTransaction() {

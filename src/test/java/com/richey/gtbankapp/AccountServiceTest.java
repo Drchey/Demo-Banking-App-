@@ -79,7 +79,11 @@ public class AccountServiceTest {
     @Test
     @DisplayName("createAccount")
     void createAccount_success(){
+
+        // Given
         AccountRequest request = new AccountRequest("TN5904018104004942712345", 1L);
+
+        // When
         when(userRepo.findById(1L)).thenReturn(Optional.of(user));
         when(accountRepo.existsByUserId(1L)).thenReturn(false);
         when(accountRepo.existsByIban(anyString())).thenReturn(false);
@@ -87,6 +91,7 @@ public class AccountServiceTest {
 
 
         AccountResponse response = accountService.createAccount(request);
+        // Then
 
         ArgumentCaptor<Account> captor = ArgumentCaptor.forClass(Account.class);
         verify(accountRepo).save(captor.capture());
@@ -106,6 +111,7 @@ public class AccountServiceTest {
     @Test
     @DisplayName("If User does not exists")
     void createAccount_userNotFound() {
+        // No Given
         when(userRepo.findById(99L)).thenReturn(Optional.empty());
 
         ResponseStatusException ex = assertThrows(ResponseStatusException.class,

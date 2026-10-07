@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: gt-bank-app
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: gt-demobank
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: gt-bank-api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+        # Connects Spring Boot to the Postgres container using Docker's internal networking
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/gt-demobank
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD= ${DB_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - db
+
+volumes:
+    postgres_data:
+
+
+
+

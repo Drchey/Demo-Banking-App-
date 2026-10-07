@@ -33,17 +33,17 @@ public class TransactionController {
     }
 
     @PostMapping("/deposit")
-    public ResponseEntity<TransactionResponse> deposit(@RequestBody TransactionDepositRequest request){
-        return ResponseEntity.ok(transactionService.deposit(request));
+    public ResponseEntity<TransactionResponse> deposit( @RequestHeader("Idempotency-Key") String idempotencyKey,@RequestBody TransactionDepositRequest request){
+        return ResponseEntity.ok(transactionService.deposit(idempotencyKey, request));
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<TransactionResponse> withdraw(@RequestBody TransactionWithdrawRequest request){
-        return ResponseEntity.ok(transactionService.withdraw(request));
+    public ResponseEntity<TransactionResponse> withdraw(@RequestHeader("Idempotency-Key") String idempotencyKey,@RequestBody TransactionWithdrawRequest request){
+        return ResponseEntity.ok(transactionService.withdraw(idempotencyKey, request));
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<TransactionResponse> transfer(@RequestBody TransactionTransferRequest request){
-        return ResponseEntity.ok(transactionService.transfer(request));
+    public ResponseEntity<TransactionResponse> transfer(@RequestHeader("Idempotency-Key") String idempotencyKey,@RequestBody TransactionTransferRequest request){
+        return ResponseEntity.ok(transactionService.transfer(idempotencyKey, request));
     }
 }

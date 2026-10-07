@@ -12,7 +12,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table
+@Table(name="transactions"
+)
 @Data
 @Builder
 @NoArgsConstructor
@@ -47,6 +48,10 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+
+
+    @Column(name = "idempotency_key", nullable = false, unique = true)
+    private String idempotencyKey;
 
 
     @CreatedDate

@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 
 @SpringBootApplication
-@EnableJpaAuditing
 public class GtBankAppApplication {
 
     public static void main(String[] args) {

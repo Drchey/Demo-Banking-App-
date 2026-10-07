@@ -16,6 +16,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -33,13 +34,29 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Override
     @Transactional
-    public TransactionResponse deposit(TransactionDepositRequest request) {
+    public TransactionResponse deposit( String idempotencyKey, TransactionDepositRequest request) {
+
+
+        Transaction existingTransaction =
+                transactionRepo.findByIdempotencyKey( idempotencyKey)
+                        .orElse(null);
+
+        if (existingTransaction != null) {
+            return new TransactionResponse(
+                    existingTransaction.getDescription(),
+                    existingTransaction.getAmount(),
+                    existingTransaction.getCreatedAt(),
+                    existingTransaction.getStatus(),
+                    existingTransaction.getType()
+            );
+        }
 
         // Get User Info
         Long getCurrentUserId = securityUtils.getCurrentUserId();
 
         User user = userRepo.findById(getCurrentUserId).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
 
 
         Transaction transaction = Transaction
@@ -62,8 +79,21 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public TransactionResponse withdraw(TransactionWithdrawRequest request) {
+    public TransactionResponse withdraw(String idempotencyKey,TransactionWithdrawRequest request) {
 
+        Transaction existingTransaction =
+                transactionRepo.findByIdempotencyKey( idempotencyKey)
+                        .orElse(null);
+
+        if (existingTransaction != null) {
+            return new TransactionResponse(
+                    existingTransaction.getDescription(),
+                    existingTransaction.getAmount(),
+                    existingTransaction.getCreatedAt(),
+                    existingTransaction.getStatus(),
+                    existingTransaction.getType()
+            );
+        }
         validatePositive(request.amount());
         Long getCurrentUserId = securityUtils.getCurrentUserId();
 
@@ -98,7 +128,21 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Override
     @Transactional
-    public TransactionResponse transfer(TransactionTransferRequest request) {
+    public TransactionResponse transfer(String idempotencyKey, TransactionTransferRequest request) {
+
+        Transaction existingTransaction =
+                transactionRepo.findByIdempotencyKey( idempotencyKey)
+                        .orElse(null);
+
+        if (existingTransaction != null) {
+            return new TransactionResponse(
+                    existingTransaction.getDescription(),
+                    existingTransaction.getAmount(),
+                    existingTransaction.getCreatedAt(),
+                    existingTransaction.getStatus(),
+                    existingTransaction.getType()
+            );
+        }
         //get the user account
         validatePositive(request.amount());
         Long currentUserId = securityUtils.getCurrentUserId();
